@@ -50,4 +50,23 @@ export class TasksService {
     /*tutorial */
     this.tasks = this.tasks.filter((task) => task.id !== id);
   }
+  public updateTaskStatusById(id: string, status: string) {
+    let updated_task = {};
+    this.tasks = this.tasks.filter((task) => {
+      if (task.id === id) {
+        if (status.toUpperCase() == TaskStatus.DONE) {
+          task.status = TaskStatus.DONE;
+        }
+        if (status.toUpperCase() == TaskStatus.IN_PROGRESS) {
+          task.status = TaskStatus.IN_PROGRESS;
+        }
+        if (status.toUpperCase() == TaskStatus.OPEN) {
+          task.status = TaskStatus.OPEN;
+        }
+        updated_task = task;
+      }
+      return task;
+    });
+    return updated_task;
+  }
 }
