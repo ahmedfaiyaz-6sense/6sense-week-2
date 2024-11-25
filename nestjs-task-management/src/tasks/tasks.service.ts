@@ -36,6 +36,7 @@ export class TasksService {
     });
   }
   public deleteTaskById(id: string) {
+    /*my implementation
     const task = this.getTaskByID(id);
     const task_index = this.tasks.indexOf(task);
     console.log(task_index);
@@ -45,6 +46,8 @@ export class TasksService {
       return 'Deleted';
     } else {
       return {};
-    }
+    }*/
+    /*tutorial */
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }
