@@ -35,4 +35,16 @@ export class TasksService {
       }
     });
   }
+  public deleteTaskById(id: string) {
+    const task = this.getTaskByID(id);
+    const task_index = this.tasks.indexOf(task);
+    console.log(task_index);
+    if (task_index != -1) {
+      // const temp = { ...task };
+      delete this.tasks[task_index];
+      return 'Deleted';
+    } else {
+      return {};
+    }
+  }
 }
