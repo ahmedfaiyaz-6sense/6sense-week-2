@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task, TaskStatus } from './tasks.model';
 import { v6 as uuid } from 'uuid';
 import { CreateTaskDTO } from './dto/create-task.dto';
@@ -30,11 +30,16 @@ export class TasksService {
     return {
       message: 'Found nothing',
     };*/
-    return this.tasks.find((task) => {
+    const foundTask = this.tasks.find((task) => {
       if (task.id == id) {
         return task;
       }
     });
+    if (foundTask) {
+      return foundTask;
+    } else {
+      throw new NotFoundException();
+    }
   }
   public deleteTaskById(id: string) {
     /*my implementation
@@ -49,10 +54,15 @@ export class TasksService {
       return {};
     }*/
     /*tutorial */
+    const prev_length = this.tasks.length;
     this.tasks = this.tasks.filter((task) => task.id !== id);
+    const current_length = this.tasks.length;
+    if(prev_length==current_length){
+        return new NotFoundException()
+    }
   }
   public updateTaskStatusById(id: string, status: string) {
-    let updated_task = {};
+    /*let updated_task = {};
     this.tasks = this.tasks.filter((task) => {
       if (task.id === id) {
         if (status.toUpperCase() == TaskStatus.DONE) {
@@ -68,6 +78,21 @@ export class TasksService {
       }
       return task;
     });
+    return updated_task;*/
+    const task = this.getTaskByID(id);
+    let updated_task = {};
+    if (task) {
+      if (status.toUpperCase() == TaskStatus.DONE) {
+        task.status = TaskStatus.DONE;
+      }
+      if (status.toUpperCase() == TaskStatus.IN_PROGRESS) {
+        task.status = TaskStatus.IN_PROGRESS;
+      }
+      if (status.toUpperCase() == TaskStatus.OPEN) {
+        task.status = TaskStatus.OPEN;
+      }
+      updated_task = task;
+    }
     return updated_task;
   }
 
