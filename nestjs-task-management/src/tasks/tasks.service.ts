@@ -9,7 +9,7 @@ export class TasksService {
     return this.tasks;
   }
 
-  public createTask(createTaskDTO:CreateTaskDTO): Task {
+  public createTask(createTaskDTO: CreateTaskDTO): Task {
     const { title, description } = createTaskDTO;
     const task: Task = {
       id: uuid(),
@@ -19,5 +19,20 @@ export class TasksService {
     };
     this.tasks.push(task);
     return task;
+  }
+  public getTaskByID(id: string) {
+    /*for (let i = 0; i < tasks.length; i += 1) {
+      if (tasks[i].id === id) {
+        return tasks[i];
+      }
+    }
+    return {
+      message: 'Found nothing',
+    };*/
+    return this.tasks.find((task) => {
+      if (task.id == id) {
+        return task;
+      }
+    });
   }
 }
