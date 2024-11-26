@@ -31,11 +31,43 @@ export class TasksService {
       title: title,
       description: description,
       status: TaskStatus.OPEN,
-    }); //creating the object
-    await this.tasksRepository.save(task);//commit to database
+    }); //create task object
+    await this.tasksRepository.save(task); //commit to database
     return task;
   }
 
+  async deleteTaskById(id: string) {
+    const task = await this.getTaskById(id);
+    const deleted_task = await this.tasksRepository.delete(task);
+    return deleted_task;
+  }
+
+  async updateTaskStatusById(
+    id: string,
+    //task: UpdateTaskStatusDTO,
+    status: TaskStatus,
+  ) {
+    const task = await this.getTaskById(id);
+    task.status = status;
+    await this.tasksRepository.save(task);
+    return task;
+  }
+
+  async getAllTasks(filterDTO: GetTaskFilterDTO): Promise<Task[]> {
+    const { status, search } = filterDTO;
+    const query = this.tasksRepository.createQueryBuilder('task');
+    if (status) {
+      query.andWhere('task.status = :status', { status });
+    }
+    if (search) {
+      query.andWhere(
+        'task.title LIKE :search OR task.description LIKE :search',
+        { search: `%${search}%` },
+      );
+    }
+    const tasks = await query.getMany();
+    return tasks;
+  }
   /*private tasks: Task[] = [];
   public getAllTasks() {
     return this.tasks;
