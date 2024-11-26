@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -34,5 +35,17 @@ export class AuthService {
         throw new InternalServerErrorException('Server error.');
       }
     }
+  }
+  async signIn(authCreds: AuthCredentialsDTO): Promise<string> {
+    const { username, password } = authCreds;
+    const user = await this.usersRepository.findOne({
+      where: { username: username },
+    });
+
+    const verify = await bcrypt.compare(password, user.password);
+    if (user && verify) {
+      return 'success';
+    }
+    throw new UnauthorizedException('CHeck your authentication credentials');
   }
 }
