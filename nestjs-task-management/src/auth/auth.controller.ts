@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthCredentialsDTO } from './dto/auth.credentials.dto';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -13,5 +14,12 @@ export class AuthController {
   @Post('/login')
   login(@Body() authCreds: AuthCredentialsDTO) {
     return this.authService.signIn(authCreds);
+  }
+  @Get('/test')
+  @UseGuards(AuthGuard())
+  test(@Req() req) {
+    console.log('GUARD WORKING: ');
+    console.log(req.status);
+    //console.log(req);
   }
 }
