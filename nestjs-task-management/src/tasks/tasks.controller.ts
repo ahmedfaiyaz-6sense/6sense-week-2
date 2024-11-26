@@ -12,20 +12,11 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
+import { Task } from './tasks.entity';
 //import { AppDataSource } from 'src/db';
 @Controller('tasks')
 export class TasksController {
-  constructor(private tasksService: TasksService) {
-    /*AppDataSource.initialize()
-      .then(() => {
-        console.log('Connected');
-      })
-      .catch((err) => {
-        console.log('Error not concected');
-        console.log(err);
-      });*/
-  }
-
+  constructor(private tasksService: TasksService) {}
   /*@Get()
   getAllTasks() {
     return this.tasksService.getAllTasks();
@@ -37,11 +28,12 @@ export class TasksController {
     } else {
       return this.tasksService.getAllTasks();
     }
-  }
-  @Get(':id')
-  getTask(@Param('id') id: string): Task {
-    return this.tasksService.getTaskByID(id);
   }*/
+ 
+  @Get(':id')
+  getTask(@Param('id') id: string): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
 
   /*@Post()
   createTask(
