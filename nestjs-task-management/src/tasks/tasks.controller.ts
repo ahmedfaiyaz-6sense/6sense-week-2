@@ -13,10 +13,19 @@ import { CreateTaskDTO } from './dto/create-task.dto';
 import { Task } from './tasks.model';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
-//import { Task } from './tasks.model';
+import { AppDataSource } from 'src/db';
 @Controller('tasks')
 export class TasksController {
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService) {
+    AppDataSource.initialize()
+      .then(() => {
+        console.log('Connected');
+      })
+      .catch((err) => {
+        console.log('Error not concected');
+        console.log(err);
+      });
+  }
 
   /*@Get()
   getAllTasks() {
