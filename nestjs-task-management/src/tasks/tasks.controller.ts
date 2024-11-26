@@ -7,18 +7,18 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
-import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
+//import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
 import { Task } from './tasks.entity';
 import { TaskStatus } from './tasks.status.enum';
 import { AuthGuard } from '@nestjs/passport';
 //import { AppDataSource } from 'src/db';
 @Controller('tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private tasksService: TasksService) {}
   /*@Get()
