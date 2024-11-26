@@ -29,7 +29,7 @@ export class TasksController {
       return this.tasksService.getAllTasks();
     }
   }*/
- 
+
   @Get(':id')
   getTask(@Param('id') id: string): Promise<Task> {
     return this.tasksService.getTaskById(id);
@@ -42,10 +42,10 @@ export class TasksController {
   ) {
     return this.tasksService.createTask(title, description);
   }*/
-  /*@Post()
-  createTask(@Body() createTaskDTO: CreateTaskDTO) {
+  @Post()
+  createTask(@Body() createTaskDTO: CreateTaskDTO): Promise<Task> {
     return this.tasksService.createTask(createTaskDTO);
-  }*/
+  }
 
   /*@Delete(':id')
   deleteTask(@Param('id') id: string) {

@@ -24,6 +24,18 @@ export class TasksService {
     }
     return found;
   }
+
+  async createTask(createTaskDTO: CreateTaskDTO): Promise<Task> {
+    const { title, description } = createTaskDTO;
+    const task = this.tasksRepository.create({
+      title: title,
+      description: description,
+      status: TaskStatus.OPEN,
+    }); //creating the object
+    await this.tasksRepository.save(task);//commit to database
+    return task;
+  }
+
   /*private tasks: Task[] = [];
   public getAllTasks() {
     return this.tasks;
