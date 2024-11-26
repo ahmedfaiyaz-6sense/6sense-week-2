@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Task, TaskStatus } from './tasks.model';
-import { v6 as uuid } from 'uuid';
+import { TaskStatus } from './tasks.status.enum';
+//import { v6 as uuid } from 'uuid';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = [];
+  /*private tasks: Task[] = [];
   public getAllTasks() {
     return this.tasks;
   }
@@ -31,7 +31,7 @@ export class TasksService {
     return {
       message: 'Found nothing',
     };*/
-    const foundTask = this.tasks.find((task) => {
+  /* const foundTask = this.tasks.find((task) => {
       if (task.id == id) {
         return task;
       }
@@ -54,8 +54,8 @@ export class TasksService {
     } else {
       return {};
     }*/
-    /*tutorial */
-    const prev_length = this.tasks.length;
+  /*tutorial */
+  /*const prev_length = this.tasks.length;
     this.tasks = this.tasks.filter((task) => task.id !== id);
     const current_length = this.tasks.length;
     if (prev_length == current_length) {
@@ -84,7 +84,7 @@ export class TasksService {
       return task;
     });
     return updated_task;*/
-    const task = this.getTaskByID(id);
+  /*const task = this.getTaskByID(id);
     let updated_task = {};
     if (task) {
       if (status.toUpperCase() == TaskStatus.DONE) {
@@ -122,5 +122,5 @@ export class TasksService {
       });
     }
     return all_tasks;
-  }
+  }*/
 }
