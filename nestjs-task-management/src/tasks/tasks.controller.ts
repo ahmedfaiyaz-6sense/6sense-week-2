@@ -13,6 +13,7 @@ import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
 import { Task } from './tasks.entity';
+import { TaskStatus } from './tasks.status.enum';
 //import { AppDataSource } from 'src/db';
 @Controller('tasks')
 export class TasksController {
@@ -29,6 +30,10 @@ export class TasksController {
       return this.tasksService.getAllTasks();
     }
   }*/
+  @Get()
+  getAllTasks(@Query() filterDTO: GetTaskFilterDTO): Promise<Task[]> {
+    return this.tasksService.getAllTasks(filterDTO);
+  }
 
   @Get(':id')
   getTask(@Param('id') id: string): Promise<Task> {
@@ -47,17 +52,17 @@ export class TasksController {
     return this.tasksService.createTask(createTaskDTO);
   }
 
-  /*@Delete(':id')
+  @Delete(':id')
   deleteTask(@Param('id') id: string) {
     return this.tasksService.deleteTaskById(id);
-  }*/
+  }
 
-  /*@Patch(':id/status')
+  @Patch(':id/status')
   updateTaskStatusById(
     @Param('id') id: string,
-    //@Body('status') status: TaskStatus,
-    @Body() updateTaskStatusDTO: UpdateTaskStatusDTO,
+    @Body('status') status: TaskStatus,
+    //@Body() updateTaskStatusDTO: UpdateTaskStatusDTO,
   ) {
-    return this.tasksService.updateTaskStatusById(id, updateTaskStatusDTO);
-  }*/
+    return this.tasksService.updateTaskStatusById(id, status);
+  }
 }
