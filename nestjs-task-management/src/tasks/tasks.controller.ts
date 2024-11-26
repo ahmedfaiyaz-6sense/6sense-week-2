@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDTO } from './dto/create-task.dto';
-import { Task } from './tasks.model';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
 //import { AppDataSource } from 'src/db';
@@ -31,7 +30,7 @@ export class TasksController {
   getAllTasks() {
     return this.tasksService.getAllTasks();
   }*/
-  @Get()
+  /*@Get()
   getAllTasks(@Query() filterData: GetTaskFilterDTO): Task[] {
     if (Object.keys(filterData).length) {
       return this.tasksService.getTasksWithFilter(filterData);
@@ -42,7 +41,7 @@ export class TasksController {
   @Get(':id')
   getTask(@Param('id') id: string): Task {
     return this.tasksService.getTaskByID(id);
-  }
+  }*/
 
   /*@Post()
   createTask(
@@ -51,22 +50,22 @@ export class TasksController {
   ) {
     return this.tasksService.createTask(title, description);
   }*/
-  @Post()
+  /*@Post()
   createTask(@Body() createTaskDTO: CreateTaskDTO) {
     return this.tasksService.createTask(createTaskDTO);
-  }
+  }*/
 
-  @Delete(':id')
+  /*@Delete(':id')
   deleteTask(@Param('id') id: string) {
     return this.tasksService.deleteTaskById(id);
-  }
+  }*/
 
-  @Patch(':id/status')
+  /*@Patch(':id/status')
   updateTaskStatusById(
     @Param('id') id: string,
     //@Body('status') status: TaskStatus,
     @Body() updateTaskStatusDTO: UpdateTaskStatusDTO,
   ) {
     return this.tasksService.updateTaskStatusById(id, updateTaskStatusDTO);
-  }
+  }*/
 }
