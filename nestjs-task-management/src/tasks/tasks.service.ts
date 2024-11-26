@@ -3,10 +3,11 @@ import { TaskStatus } from './tasks.status.enum';
 //import { v6 as uuid } from 'uuid';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTaskFilterDTO } from './dto/get-tasks-filter.dto';
-import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
+//import { UpdateTaskStatusDTO } from './dto/update-tasks-status.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TasksRepository } from './tasks.repository';
 import { Task } from './tasks.entity';
+import { User } from 'src/auth/users.entity';
 @Injectable()
 export class TasksService {
   constructor(
@@ -25,12 +26,13 @@ export class TasksService {
     return found;
   }
 
-  async createTask(createTaskDTO: CreateTaskDTO): Promise<Task> {
+  async createTask(createTaskDTO: CreateTaskDTO, user: User): Promise<Task> {
     const { title, description } = createTaskDTO;
     const task = this.tasksRepository.create({
       title: title,
       description: description,
       status: TaskStatus.OPEN,
+      user: user,
     }); //create task object
     await this.tasksRepository.save(task); //commit to database
     return task;
@@ -53,9 +55,10 @@ export class TasksService {
     return task;
   }
 
-  async getAllTasks(filterDTO: GetTaskFilterDTO): Promise<Task[]> {
+  async getAllTasks(filterDTO: GetTaskFilterDTO, user: User): Promise<Task[]> {
     const { status, search } = filterDTO;
     const query = this.tasksRepository.createQueryBuilder('task');
+    query.where({ user });
     if (status) {
       query.andWhere('task.status = :status', { status });
     }
